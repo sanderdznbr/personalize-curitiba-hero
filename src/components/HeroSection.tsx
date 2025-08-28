@@ -129,8 +129,8 @@ const HeroSection = () => {
         )}
 
         {/* Content */}
-        <div className="container mx-auto px-8 md:px-12 lg:px-16 relative z-10 flex items-center justify-center min-h-full py-16 md:py-24">
-          <div className="w-full max-w-4xl ml-0 md:ml-8 lg:ml-12">
+        <div className="relative z-10 flex items-center justify-center min-h-full py-16 md:py-24 px-4 md:px-6 lg:px-8">
+          <div className="w-full max-w-5xl mx-auto text-left">
             {/* Logo */}
             <Logo />
 

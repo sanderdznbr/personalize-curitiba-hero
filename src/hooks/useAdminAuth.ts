@@ -11,23 +11,31 @@ export const useAdminAuth = () => {
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Check if user is admin
-          const { data, error } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
-          setIsAdmin(!error && !!data);
+          // Defer Supabase call to prevent recursive loop
+          setTimeout(async () => {
+            try {
+              const { data, error } = await supabase
+                .from('admin_users')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              
+              setIsAdmin(!error && !!data);
+            } catch (error) {
+              setIsAdmin(false);
+            } finally {
+              setLoading(false);
+            }
+          }, 0);
         } else {
           setIsAdmin(false);
+          setLoading(false);
         }
-        setLoading(false);
       }
     );
 
