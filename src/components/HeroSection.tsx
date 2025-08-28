@@ -84,9 +84,9 @@ const HeroSection = () => {
   const currentBanner = banners[currentSlide];
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-white p-4 md:p-6">
+    <section className="min-h-screen relative overflow-hidden bg-white md:p-6">
       {/* Green background container with rounded corners */}
-      <div className="relative min-h-[calc(100vh-2rem)] md:min-h-[calc(100vh-3rem)] bg-[#00C563] rounded-2xl md:rounded-3xl overflow-hidden">
+      <div className="relative min-h-screen md:min-h-[calc(100vh-3rem)] bg-[#00C563] md:rounded-3xl overflow-hidden">
         {/* Slider Controls */}
         {banners.length > 1 && (
           <>
