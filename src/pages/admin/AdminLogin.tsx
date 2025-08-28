@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate, Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +12,15 @@ export const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Redirect if already admin
+  useEffect(() => {
+    if (isAdmin && !loading) {
+      console.log('User is admin, redirecting to dashboard');
+      navigate('/admin', { replace: true });
+    }
+  }, [isAdmin, loading, navigate]);
 
   if (loading) {
     return (
@@ -29,22 +38,35 @@ export const AdminLogin: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { error } = await signIn(email, password);
+    try {
+      const { error } = await signIn(email, password);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: "Erro no login",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login realizado com sucesso",
+          description: "Redirecionando para o painel administrativo...",
+        });
+        
+        // Force redirect after successful login
+        setTimeout(() => {
+          navigate('/admin', { replace: true });
+        }, 1000);
+      }
+    } catch (error) {
       toast({
         title: "Erro no login",
-        description: error.message,
+        description: "Ocorreu um erro inesperado. Tente novamente.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Login realizado com sucesso",
-        description: "Redirecionando para o painel administrativo...",
-      });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (

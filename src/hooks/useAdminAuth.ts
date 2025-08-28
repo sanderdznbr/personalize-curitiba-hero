@@ -8,70 +8,127 @@ export const useAdminAuth = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const checkAdminStatus = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      return !error && !!data;
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+  };
+
   useEffect(() => {
+    let isSubscribed = true;
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        if (!isSubscribed) return;
+
+        console.log('Auth state changed:', event, session?.user?.email);
+        
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Defer Supabase call to prevent recursive loop
-          setTimeout(async () => {
-            try {
-              const { data, error } = await supabase
-                .from('admin_users')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-              
-              setIsAdmin(!error && !!data);
-            } catch (error) {
-              setIsAdmin(false);
-            } finally {
-              setLoading(false);
-            }
-          }, 0);
+          const adminStatus = await checkAdminStatus(session.user.id);
+          if (isSubscribed) {
+            setIsAdmin(adminStatus);
+            setLoading(false);
+          }
         } else {
-          setIsAdmin(false);
-          setLoading(false);
+          if (isSubscribed) {
+            setIsAdmin(false);
+            setLoading(false);
+          }
         }
       }
     );
 
     // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        supabase
-          .from('admin_users')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-          .then(({ data, error }) => {
-            setIsAdmin(!error && !!data);
-            setLoading(false);
-          });
-      } else {
-        setLoading(false);
-      }
-    });
+    const initializeAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (!isSubscribed) return;
+        
+        if (error) {
+          console.error('Error getting session:', error);
+          setLoading(false);
+          return;
+        }
 
-    return () => subscription.unsubscribe();
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          const adminStatus = await checkAdminStatus(session.user.id);
+          if (isSubscribed) {
+            setIsAdmin(adminStatus);
+          }
+        }
+        
+        if (isSubscribed) {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        if (isSubscribed) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initializeAuth();
+
+    return () => {
+      isSubscribed = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setLoading(false);
+        return { error };
+      }
+
+      // Check admin status immediately after successful login
+      if (data.user) {
+        const adminStatus = await checkAdminStatus(data.user.id);
+        setIsAdmin(adminStatus);
+        setUser(data.user);
+        setSession(data.session);
+      }
+
+      setLoading(false);
+      return { error: null };
+    } catch (error) {
+      setLoading(false);
+      return { error: error as any };
+    }
   };
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setUser(null);
+      setSession(null);
+      setIsAdmin(false);
+    }
     return { error };
   };
 
