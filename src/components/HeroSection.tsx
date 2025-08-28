@@ -38,7 +38,7 @@ const HeroSection = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-6 lg:p-8">
+    <div className="bg-white p-4 md:p-6 lg:p-8">
       <section className="h-[650px] hero-gradient relative overflow-hidden rounded-[var(--radius-xl)] flex items-center">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
