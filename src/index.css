@@ -1,96 +1,42 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Design system for PERSONALIZE CURITIBA */
 
 @layer base {
   :root {
+    /* Brand Colors */
+    --brand-primary: 160 100% 33%; /* #00A859 */
+    --brand-secondary: 84 100% 50%; /* #6EFF00 */
+    --brand-gradient: linear-gradient(135deg, hsl(160 100% 33%) 0%, hsl(84 100% 50%) 100%);
+    
+    /* Neutral Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 220 9% 20%;
+    --white: 0 0% 100%;
+    --black: 220 9% 15%;
+    
+    /* Component Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --card-foreground: 220 9% 20%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 220 9% 46%;
+    
+    /* Shadow and Effects */
+    --shadow-soft: 0 4px 20px rgba(0, 168, 89, 0.15);
+    --shadow-medium: 0 8px 30px rgba(0, 168, 89, 0.2);
+    --shadow-strong: 0 15px 40px rgba(0, 168, 89, 0.25);
+    
+    /* Border radius */
+    --radius: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    
+    /* Typography */
+    --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
@@ -100,6 +46,70 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-[var(--font-body)] antialiased;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-[var(--font-heading)] font-bold;
+  }
+}
+
+/* Custom component variants */
+@layer components {
+  .btn-hero {
+    @apply px-8 py-4 rounded-[var(--radius-lg)] font-semibold text-lg transition-all duration-300 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:scale-105 active:scale-95;
+  }
+  
+  .btn-primary {
+    @apply bg-[hsl(var(--brand-secondary))] text-[hsl(var(--black))] hover:bg-[hsl(84_100%_45%)] hover:shadow-[0_8px_30px_rgba(110,255,0,0.3)];
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-white border-2 border-white hover:bg-white hover:text-[hsl(var(--brand-primary))] hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)];
+  }
+  
+  .hero-gradient {
+    background: var(--brand-gradient);
+  }
+  
+  .text-hero {
+    @apply text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight;
+  }
+  
+  .text-hero-sub {
+    @apply text-xl lg:text-2xl text-white/90 leading-relaxed;
+  }
+  
+  .slider-shadow {
+    box-shadow: var(--shadow-strong);
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
 }
