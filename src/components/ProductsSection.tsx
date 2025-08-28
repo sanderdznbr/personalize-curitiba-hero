@@ -42,12 +42,8 @@ const ProductsSection = () => {
   ];
 
   return (
-    <div className="relative bg-[#6FFF00] py-16 lg:py-24 overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute left-0 top-0 w-32 h-full bg-[#00A859] rounded-r-[100px]"></div>
-      <div className="absolute right-0 top-0 w-32 h-full bg-[#00A859] rounded-l-[100px]"></div>
-      
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+    <div className="bg-white py-16 lg:py-24">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Title */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#00A859] mb-4">
