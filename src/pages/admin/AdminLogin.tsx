@@ -37,6 +37,11 @@ export const AdminLogin: React.FC = () => {
         description: error.message,
         variant: "destructive",
       });
+    } else {
+      toast({
+        title: "Login realizado com sucesso",
+        description: "Redirecionando para o painel administrativo...",
+      });
     }
 
     setIsLoading(false);
