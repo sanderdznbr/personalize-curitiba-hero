@@ -52,7 +52,7 @@ const HeroSection = () => {
       setBanners([{
         id: 'default',
         title: 'Seu uniforme, sua marca, sua identidade!',
-        subtitle: 'Desde 1999, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.',
+        subtitle: 'Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.',
         image_url: null,
         button_text: 'Saiba mais',
         button_link: '#about',
