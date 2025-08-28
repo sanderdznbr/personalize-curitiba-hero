@@ -5,7 +5,7 @@ import { Play } from 'lucide-react';
 const AboutSection = () => {
   return (
     <div className="min-h-screen bg-white p-4 md:p-6 lg:p-8">
-      <section className="container mx-auto py-16 lg:py-24">
+      <section className="container mx-auto py-8 lg:py-12">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-8">
@@ -45,7 +45,7 @@ const AboutSection = () => {
               
               {/* Play Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <button className="bg-[#00A859] hover:bg-[#008A4A] text-white rounded-full p-6 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95">
+                <button className="bg-black hover:bg-gray-800 text-white rounded-full p-6 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95">
                   <Play className="w-8 h-8 ml-1" fill="currentColor" />
                 </button>
               </div>
