@@ -68,9 +68,9 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 text-white">
-            <Logo />
+          {/* Brand Text */}
+          <div className="flex-shrink-0">
+            <span className="text-white text-xl font-bold">PERSONALIZE</span>
           </div>
 
           {/* Navigation Links */}

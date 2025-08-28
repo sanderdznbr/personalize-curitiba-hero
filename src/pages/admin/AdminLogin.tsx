@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -77,6 +77,15 @@ export const AdminLogin: React.FC = () => {
               {isLoading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
+          
+          <div className="mt-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              Não tem uma conta?{' '}
+              <Link to="/admin/register" className="text-primary hover:underline">
+                Registrar-se
+              </Link>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

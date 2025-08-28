@@ -41,6 +41,12 @@ const ProductsSection = () => {
     setLoading(false);
   };
 
+  const handleProductClick = (productName: string) => {
+    const message = `Olá! Tenho interesse em saber mais sobre ${productName}.`;
+    const whatsappUrl = `https://wa.me/5541999999999?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   if (loading) {
     return (
       <div className="bg-white py-16 lg:py-24">
@@ -64,11 +70,12 @@ const ProductsSection = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto mb-12">
           {products.map((product) => (
             <div 
               key={product.id}
-              className="bg-white rounded-[var(--radius-xl)] p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              onClick={() => handleProductClick(product.name)}
+              className="bg-white rounded-[var(--radius-xl)] p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               {/* Product Image */}
               <div className="aspect-square bg-gray-100 rounded-[var(--radius-lg)] mb-6 overflow-hidden">

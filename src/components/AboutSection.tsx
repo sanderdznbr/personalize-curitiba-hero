@@ -93,26 +93,39 @@ const AboutSection = () => {
             <div className="absolute -top-8 -right-8 w-full h-full bg-[#6FFF00] rounded-[var(--radius-xl)] -z-10"></div>
             
             {/* Video Container */}
-            <div className="relative bg-black rounded-[var(--radius-xl)] overflow-hidden aspect-video shadow-lg">
-              {content.video_web_url || content.video_mobile_url ? (
-                <video
-                  className="w-full h-full object-cover"
-                  controls
-                  poster=""
-                >
-                  <source src={content.video_web_url || content.video_mobile_url || ''} type="video/mp4" />
-                  {content.video_mobile_url && (
-                    <source src={content.video_mobile_url} type="video/mp4" media="(max-width: 768px)" />
-                  )}
-                  Seu navegador não suporta vídeos.
-                </video>
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="bg-black hover:bg-gray-800 text-white rounded-full p-6 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95">
-                    <Play className="w-8 h-8 ml-1" fill="currentColor" />
-                  </button>
-                </div>
-              )}
+            <div className="relative bg-black rounded-[var(--radius-xl)] overflow-hidden shadow-lg">
+              {/* Desktop: 16:9, Mobile: 9:16 */}
+              <div className="aspect-video md:aspect-video sm:aspect-[9/16]">
+                {content.video_web_url || content.video_mobile_url ? (
+                  <>
+                    {/* Show mobile video on small screens */}
+                    <video
+                      className="w-full h-full object-cover block md:hidden"
+                      controls
+                      poster=""
+                    >
+                      <source src={content.video_mobile_url || content.video_web_url || ''} type="video/mp4" />
+                      Seu navegador não suporta vídeos.
+                    </video>
+                    
+                    {/* Show web video on medium screens and up */}
+                    <video
+                      className="w-full h-full object-cover hidden md:block"
+                      controls
+                      poster=""
+                    >
+                      <source src={content.video_web_url || content.video_mobile_url || ''} type="video/mp4" />
+                      Seu navegador não suporta vídeos.
+                    </video>
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button className="bg-black hover:bg-gray-800 text-white rounded-full p-6 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95">
+                      <Play className="w-8 h-8 ml-1" fill="currentColor" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

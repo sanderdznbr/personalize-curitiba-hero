@@ -10,6 +10,7 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { BannersManager } from "./pages/admin/BannersManager";
 import { AboutManager } from "./pages/admin/AboutManager";
 import { ProductsManager } from "./pages/admin/ProductsManager";
+import { AdminRegister } from "./pages/admin/AdminRegister";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/register" element={<AdminRegister />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/banners" element={<BannersManager />} />
           <Route path="/admin/about" element={<AboutManager />} />
