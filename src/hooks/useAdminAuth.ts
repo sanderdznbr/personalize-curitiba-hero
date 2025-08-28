@@ -112,6 +112,16 @@ export const useAdminAuth = () => {
         setIsAdmin(adminStatus);
         setUser(data.user);
         setSession(data.session);
+        
+        // If user is not an admin, return a specific error
+        if (!adminStatus) {
+          setLoading(false);
+          return { 
+            error: { 
+              message: "Acesso negado. Esta conta não possui permissões administrativas." 
+            } 
+          };
+        }
       }
 
       setLoading(false);

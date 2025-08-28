@@ -2,6 +2,7 @@ import React from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Image, Users, Package, BarChart3 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const AdminDashboard: React.FC = () => {
   const stats = [
@@ -39,27 +40,33 @@ export const AdminDashboard: React.FC = () => {
               <CardTitle>Acesso Rápido</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                <Image className="w-5 h-5 text-blue-600" />
-                <div>
-                  <p className="font-medium">Gerenciar Banners</p>
-                  <p className="text-sm text-muted-foreground">Adicione ou edite banners do slider principal</p>
+              <Link to="/admin/banners">
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors cursor-pointer">
+                  <Image className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium">Gerenciar Banners</p>
+                    <p className="text-sm text-muted-foreground">Adicione ou edite banners do slider principal</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                <Users className="w-5 h-5 text-green-600" />
-                <div>
-                  <p className="font-medium">Seção Sobre</p>
-                  <p className="text-sm text-muted-foreground">Edite o conteúdo da seção "Sobre Nós"</p>
+              </Link>
+              <Link to="/admin/about">
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors cursor-pointer">
+                  <Users className="w-5 h-5 text-green-600" />
+                  <div>
+                    <p className="font-medium">Seção Sobre</p>
+                    <p className="text-sm text-muted-foreground">Edite o conteúdo da seção "Sobre Nós"</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                <Package className="w-5 h-5 text-purple-600" />
-                <div>
-                  <p className="font-medium">Produtos</p>
-                  <p className="text-sm text-muted-foreground">Gerencie as categorias de produtos</p>
+              </Link>
+              <Link to="/admin/products">
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors cursor-pointer">
+                  <Package className="w-5 h-5 text-purple-600" />
+                  <div>
+                    <p className="font-medium">Produtos</p>
+                    <p className="text-sm text-muted-foreground">Gerencie as categorias de produtos</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </CardContent>
           </Card>
 

@@ -42,21 +42,32 @@ export const AdminLogin: React.FC = () => {
       const { error } = await signIn(email, password);
 
       if (error) {
+        let errorMessage = error.message;
+        
+        // Provide more user-friendly error messages
+        if (error.message.includes('Invalid login credentials')) {
+          errorMessage = "Email ou senha incorretos. Verifique suas credenciais.";
+        } else if (error.message.includes('Email not confirmed')) {
+          errorMessage = "Por favor, confirme seu email antes de fazer login.";
+        } else if (error.message.includes('Too many requests')) {
+          errorMessage = "Muitas tentativas de login. Tente novamente em alguns minutos.";
+        } else if (error.message.includes('Acesso negado')) {
+          errorMessage = "Acesso negado. Esta conta não possui permissões administrativas.";
+        }
+        
         toast({
           title: "Erro no login",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Login realizado com sucesso",
+          title: "Login realizado com sucesso!",
           description: "Redirecionando para o painel administrativo...",
         });
         
-        // Force redirect after successful login
-        setTimeout(() => {
-          navigate('/admin', { replace: true });
-        }, 1000);
+        // Immediate redirect - the useEffect will handle admin verification
+        navigate('/admin', { replace: true });
       }
     } catch (error) {
       toast({
