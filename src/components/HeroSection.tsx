@@ -46,11 +46,13 @@ const HeroSection = () => {
         </div>
         
         <div className="container mx-auto px-6 lg:px-8 relative z-10">
-          <div className="flex justify-center items-center h-full">
-            {/* Content Centered */}
-            <div className="text-center space-y-6 animate-slide-in max-w-3xl">
+          <div className="flex items-center h-full">
+            {/* Content Left Aligned */}
+            <div className="text-left space-y-6 animate-slide-in max-w-3xl ml-8 lg:ml-16">
               {/* Logo */}
-              <Logo />
+              <div className="flex justify-start">
+                <Logo />
+              </div>
               
               {/* Main Heading */}
               <div className="space-y-4">
@@ -58,13 +60,13 @@ const HeroSection = () => {
                   Seu uniforme, sua marca, sua identidade!
                 </h1>
                 
-                <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl mx-auto">
+                <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl">
                   Desde 1999, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, <span className="text-[#6FFF00] font-semibold">rapidez e confiança</span>.
                 </p>
               </div>
               
               {/* Call to Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 pt-6">
                 <Button className="btn-hero btn-primary text-lg px-8 py-4">
                   Saiba mais
                 </Button>
