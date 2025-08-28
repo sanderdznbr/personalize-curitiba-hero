@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { LogIn } from 'lucide-react';
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -101,16 +102,26 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* WhatsApp Button */}
-          <a 
-            href="https://wa.me/5541991332936"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white text-[#00A859] px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
-          >
-            <WhatsAppIcon />
-            <span className="hidden sm:inline">Entrar em contato</span>
-          </a>
+          {/* Login and WhatsApp Buttons */}
+          <div className="flex items-center gap-3">
+            <Link 
+              to="/admin/login"
+              className="flex items-center justify-center w-10 h-10 bg-white/10 backdrop-blur-sm text-white rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"
+              title="Login Administrativo"
+            >
+              <LogIn className="w-5 h-5" />
+            </Link>
+
+            <a 
+              href="https://api.whatsapp.com/send/?phone=5541991332936&text&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-white text-[#00A859] px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
+            >
+              <WhatsAppIcon />
+              <span className="hidden sm:inline">Entrar em contato</span>
+            </a>
+          </div>
         </div>
       </div>
     </nav>

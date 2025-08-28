@@ -87,7 +87,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <h4 className="text-lg font-semibold mb-4">Contato</h4>
             <div className="space-y-3">
-              <a href="https://wa.me/5541991332936" className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
+              <a href="https://api.whatsapp.com/send/?phone=5541991332936&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
                 <WhatsAppIcon />
                 <span>(41) 99133-2936</span>
               </a>

@@ -70,9 +70,7 @@ const HeroSection = () => {
   };
 
   const handleWhatsApp = () => {
-    const message = "Olá! Gostaria de saber mais sobre os uniformes personalizados.";
-    const whatsappUrl = `https://wa.me/5541999999999?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open('https://api.whatsapp.com/send/?phone=5541991332936&text&type=phone_number&app_absent=0', '_blank');
   };
 
   if (loading) {

@@ -42,9 +42,7 @@ const ProductsSection = () => {
   };
 
   const handleProductClick = (productName: string) => {
-    const message = `Olá! Tenho interesse em saber mais sobre ${productName}.`;
-    const whatsappUrl = `https://wa.me/5541999999999?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open('https://api.whatsapp.com/send/?phone=5541991332936&text&type=phone_number&app_absent=0', '_blank');
   };
 
   if (loading) {
