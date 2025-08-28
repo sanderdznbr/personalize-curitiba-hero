@@ -24,12 +24,47 @@ export const useAdminAuth = () => {
   };
 
   useEffect(() => {
-    let isSubscribed = true;
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      try {
+        // Get current session
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+        
+        if (!mounted) return;
+        
+        if (error) {
+          console.error('Error getting session:', error);
+          setLoading(false);
+          return;
+        }
+
+        setSession(currentSession);
+        setUser(currentSession?.user ?? null);
+        
+        // Check admin status if user exists
+        if (currentSession?.user) {
+          const adminStatus = await checkAdminStatus(currentSession.user.id);
+          if (mounted) {
+            setIsAdmin(adminStatus);
+          }
+        }
+        
+        if (mounted) {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
 
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (!isSubscribed) return;
+        if (!mounted) return;
 
         console.log('Auth state changed:', event, session?.user?.email);
         
@@ -38,12 +73,12 @@ export const useAdminAuth = () => {
         
         if (session?.user) {
           const adminStatus = await checkAdminStatus(session.user.id);
-          if (isSubscribed) {
+          if (mounted) {
             setIsAdmin(adminStatus);
             setLoading(false);
           }
         } else {
-          if (isSubscribed) {
+          if (mounted) {
             setIsAdmin(false);
             setLoading(false);
           }
@@ -51,44 +86,11 @@ export const useAdminAuth = () => {
       }
     );
 
-    // Check for existing session
-    const initializeAuth = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (!isSubscribed) return;
-        
-        if (error) {
-          console.error('Error getting session:', error);
-          setLoading(false);
-          return;
-        }
-
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          const adminStatus = await checkAdminStatus(session.user.id);
-          if (isSubscribed) {
-            setIsAdmin(adminStatus);
-          }
-        }
-        
-        if (isSubscribed) {
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-        if (isSubscribed) {
-          setLoading(false);
-        }
-      }
-    };
-
+    // Initialize auth
     initializeAuth();
 
     return () => {
-      isSubscribed = false;
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -106,25 +108,7 @@ export const useAdminAuth = () => {
         return { error };
       }
 
-      // Check admin status immediately after successful login
-      if (data.user) {
-        const adminStatus = await checkAdminStatus(data.user.id);
-        setIsAdmin(adminStatus);
-        setUser(data.user);
-        setSession(data.session);
-        
-        // If user is not an admin, return a specific error
-        if (!adminStatus) {
-          setLoading(false);
-          return { 
-            error: { 
-              message: "Acesso negado. Esta conta não possui permissões administrativas." 
-            } 
-          };
-        }
-      }
-
-      setLoading(false);
+      // Admin status will be checked by the auth state change listener
       return { error: null };
     } catch (error) {
       setLoading(false);

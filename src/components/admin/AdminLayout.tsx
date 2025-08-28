@@ -12,14 +12,19 @@ interface AdminLayoutProps {
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { isAdmin, loading, signOut, user } = useAdminAuth();
 
+  // Show loading spinner
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <p className="text-muted-foreground">Carregando painel administrativo...</p>
+        </div>
       </div>
     );
   }
 
+  // Redirect to login if not admin
   if (!isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }

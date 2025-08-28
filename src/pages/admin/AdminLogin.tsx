@@ -14,7 +14,7 @@ export const AdminLogin: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect if already admin
+  // Redirect if already admin and not loading
   useEffect(() => {
     if (isAdmin && !loading) {
       console.log('User is admin, redirecting to dashboard');
@@ -22,14 +22,19 @@ export const AdminLogin: React.FC = () => {
     }
   }, [isAdmin, loading, navigate]);
 
+  // Show loading spinner only for initial auth check
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <p className="text-muted-foreground">Verificando autenticação...</p>
+        </div>
       </div>
     );
   }
 
+  // Redirect if already authenticated as admin
   if (isAdmin) {
     return <Navigate to="/admin" replace />;
   }
@@ -51,8 +56,6 @@ export const AdminLogin: React.FC = () => {
           errorMessage = "Por favor, confirme seu email antes de fazer login.";
         } else if (error.message.includes('Too many requests')) {
           errorMessage = "Muitas tentativas de login. Tente novamente em alguns minutos.";
-        } else if (error.message.includes('Acesso negado')) {
-          errorMessage = "Acesso negado. Esta conta não possui permissões administrativas.";
         }
         
         toast({
@@ -63,11 +66,14 @@ export const AdminLogin: React.FC = () => {
       } else {
         toast({
           title: "Login realizado com sucesso!",
-          description: "Redirecionando para o painel administrativo...",
+          description: "Verificando permissões...",
         });
         
-        // Immediate redirect - the useEffect will handle admin verification
-        navigate('/admin', { replace: true });
+        // Small delay to allow auth state to update
+        setTimeout(() => {
+          // The useEffect will handle the redirect when isAdmin becomes true
+          setIsLoading(false);
+        }, 1000);
       }
     } catch (error) {
       toast({
@@ -75,7 +81,6 @@ export const AdminLogin: React.FC = () => {
         description: "Ocorreu um erro inesperado. Tente novamente.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -98,6 +103,7 @@ export const AdminLogin: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="admin@personalize.com"
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
@@ -109,6 +115,7 @@ export const AdminLogin: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
+                disabled={isLoading}
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
