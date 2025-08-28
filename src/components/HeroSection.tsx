@@ -67,10 +67,10 @@ const HeroSection = () => {
               
               {/* Call to Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button className="btn-hero btn-primary text-lg px-8 py-4">
+                <Button className="btn-hero btn-primary">
                   Saiba mais
                 </Button>
-                <Button className="btn-hero btn-secondary text-lg px-8 py-4">
+                <Button className="btn-hero btn-secondary">
                   Entrar em contato
                 </Button>
               </div>
