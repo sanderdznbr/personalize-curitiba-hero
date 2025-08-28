@@ -130,7 +130,7 @@ const HeroSection = () => {
 
         {/* Content */}
         <div className="container mx-auto px-8 md:px-12 lg:px-16 relative z-10 flex items-center justify-center min-h-full py-16 md:py-24">
-          <div className="w-full max-w-4xl ml-0 md:ml-8 lg:ml-12">
+          <div className="w-full max-w-4xl mx-auto text-center">
             {/* Logo */}
             <Logo />
 
