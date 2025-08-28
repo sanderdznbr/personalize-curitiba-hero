@@ -57,19 +57,19 @@
 /* Custom component variants */
 @layer components {
   .btn-hero {
-    @apply px-8 py-4 rounded-[var(--radius-lg)] font-semibold text-lg transition-all duration-300 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:scale-105 active:scale-95;
+    @apply px-12 py-5 rounded-full font-semibold text-xl transition-all duration-300 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:scale-105 active:scale-95;
   }
   
   .btn-primary {
-    @apply bg-[hsl(var(--brand-secondary))] text-[hsl(var(--black))] hover:bg-[hsl(84_100%_45%)] hover:shadow-[0_8px_30px_rgba(110,255,0,0.3)];
+    @apply bg-[#6FFF00] text-[#00A859] hover:bg-[#5EDD00] hover:shadow-[0_8px_30px_rgba(111,255,0,0.3)];
   }
   
   .btn-secondary {
-    @apply bg-transparent text-white border-2 border-white hover:bg-white hover:text-[hsl(var(--brand-primary))] hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)];
+    @apply bg-transparent text-white border-2 border-white hover:bg-white hover:text-[#00A859] hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)] rounded-full;
   }
   
   .hero-gradient {
-    background: hsl(var(--brand-primary));
+    background: #00A859;
   }
   
   .text-hero {
