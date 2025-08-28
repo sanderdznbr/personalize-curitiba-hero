@@ -57,7 +57,7 @@
 /* Custom component variants */
 @layer components {
   .btn-hero {
-    @apply px-12 py-5 rounded-full font-semibold text-xl transition-all duration-300 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:scale-105 active:scale-95;
+    @apply px-10 py-5 rounded-full font-semibold text-lg transition-all duration-300 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:scale-105 active:scale-95;
   }
   
   .btn-primary {
