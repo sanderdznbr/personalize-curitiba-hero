@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { Navigate, Link, useNavigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,37 +11,25 @@ export const AdminLogin: React.FC = () => {
   const { isAdmin, loading, signIn } = useAdminAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Redirect if already admin and not loading
-  useEffect(() => {
-    if (isAdmin && !loading) {
-      console.log('User is admin, redirecting to dashboard');
-      navigate('/admin', { replace: true });
-    }
-  }, [isAdmin, loading, navigate]);
-
-  // Show loading spinner only for initial auth check
+  // Show loading only during initial check
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">Verificando autenticação...</p>
-        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
-  // Redirect if already authenticated as admin
+  // Redirect if admin
   if (isAdmin) {
     return <Navigate to="/admin" replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoggingIn(true);
 
     try {
       const { error } = await signIn(email, password);
@@ -49,13 +37,12 @@ export const AdminLogin: React.FC = () => {
       if (error) {
         let errorMessage = error.message;
         
-        // Provide more user-friendly error messages
         if (error.message.includes('Invalid login credentials')) {
-          errorMessage = "Email ou senha incorretos. Verifique suas credenciais.";
+          errorMessage = "Email ou senha incorretos.";
         } else if (error.message.includes('Email not confirmed')) {
-          errorMessage = "Por favor, confirme seu email antes de fazer login.";
+          errorMessage = "Por favor, confirme seu email.";
         } else if (error.message.includes('Too many requests')) {
-          errorMessage = "Muitas tentativas de login. Tente novamente em alguns minutos.";
+          errorMessage = "Muitas tentativas. Tente novamente em alguns minutos.";
         }
         
         toast({
@@ -63,25 +50,21 @@ export const AdminLogin: React.FC = () => {
           description: errorMessage,
           variant: "destructive",
         });
+        setIsLoggingIn(false);
       } else {
         toast({
-          title: "Login realizado com sucesso!",
-          description: "Verificando permissões...",
+          title: "Login realizado!",
+          description: "Redirecionando...",
         });
-        
-        // Small delay to allow auth state to update
-        setTimeout(() => {
-          // The useEffect will handle the redirect when isAdmin becomes true
-          setIsLoading(false);
-        }, 1000);
+        // Don't set loading to false - let the auth state handle redirect
       }
     } catch (error) {
       toast({
-        title: "Erro no login",
-        description: "Ocorreu um erro inesperado. Tente novamente.",
+        title: "Erro",
+        description: "Erro inesperado. Tente novamente.",
         variant: "destructive",
       });
-      setIsLoading(false);
+      setIsLoggingIn(false);
     }
   };
 
@@ -103,7 +86,7 @@ export const AdminLogin: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="admin@personalize.com"
-                disabled={isLoading}
+                disabled={isLoggingIn}
               />
             </div>
             <div className="space-y-2">
@@ -115,11 +98,11 @@ export const AdminLogin: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                disabled={isLoading}
+                disabled={isLoggingIn}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Entrando..." : "Entrar"}
+            <Button type="submit" className="w-full" disabled={isLoggingIn}>
+              {isLoggingIn ? "Entrando..." : "Entrar"}
             </Button>
           </form>
           
