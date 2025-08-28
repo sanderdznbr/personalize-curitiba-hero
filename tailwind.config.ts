@@ -24,13 +24,18 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				
+				// Brand colors for PERSONALIZE CURITIBA
+				'brand-primary': 'hsl(var(--brand-primary))',
+				'brand-secondary': 'hsl(var(--brand-secondary))',
+				
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: 'hsl(var(--brand-primary))',
+					foreground: 'hsl(var(--white))'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: 'hsl(var(--brand-secondary))',
+					foreground: 'hsl(var(--black))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',

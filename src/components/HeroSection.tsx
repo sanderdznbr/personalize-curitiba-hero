@@ -55,77 +55,81 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-r from-primary to-secondary overflow-hidden">
+    <section className="hero-gradient min-h-screen flex items-center relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
-      </div>
+      <div 
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M30 0C46.569 0 60 13.431 60 30C60 46.569 46.569 60 30 60C13.431 60 0 46.569 0 30C0 13.431 13.431 0 30 0ZM30 6C16.745 6 6 16.745 6 30C6 43.255 16.745 54 30 54C43.255 54 54 43.255 54 30C54 16.745 43.255 6 30 6Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}
+      />
       
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        {/* Header with Logo */}
-        <header className="flex justify-between items-center mb-16">
-          <Logo />
-          <nav className="hidden md:flex space-x-8">
-            <a href="#sobre" className="text-white hover:text-accent transition-colors">Sobre</a>
-            <a href="#servicos" className="text-white hover:text-accent transition-colors">Serviços</a>
-            <a href="#contato" className="text-white hover:text-accent transition-colors">Contato</a>
-          </nav>
-        </header>
-
-        {/* Hero Content */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)]">
-          {/* Left Content */}
-          <div className="text-white space-y-8 animate-fade-in">
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-              Seu uniforme, sua marca, sua 
-              <span className="bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"> identidade!</span>
-            </h1>
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Content Side */}
+          <div className="space-y-8 animate-slide-in">
+            {/* Logo */}
+            <Logo />
             
-            <p className="text-xl lg:text-2xl text-white/90 max-w-2xl">
-              Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.
-            </p>
+            {/* Main Heading */}
+            <div className="space-y-6">
+              <h1 className="text-hero">
+                Seu uniforme, sua marca, sua identidade!
+              </h1>
+              
+              <p className="text-hero-sub max-w-xl">
+                Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.
+              </p>
+            </div>
             
+            {/* Call to Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button 
-                size="lg" 
-                className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all"
-              >
+              <Button className="btn-hero btn-primary">
                 SAIBA MAIS
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6 font-semibold transition-all"
-              >
+              <Button className="btn-hero btn-secondary">
                 ENTRAR EM CONTATO
               </Button>
             </div>
           </div>
-
-          {/* Right Content - Image Slider */}
-          <div className="relative animate-fade-in-delay">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-sm">
-              <div className="aspect-[4/3] relative">
+          
+          {/* Slider Side */}
+          <div className="relative animate-fade-in">
+            <div className="relative rounded-[var(--radius-xl)] overflow-hidden slider-shadow bg-white/5 backdrop-blur-sm">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
                 {slides.map((slide, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-opacity duration-1000 ${
-                      index === currentSlide ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
+                  <div key={index} className="w-full flex-shrink-0">
                     <img
                       src={slide.image}
                       alt={slide.alt}
-                      className="w-full h-full object-cover"
+                      className="w-full h-96 lg:h-[500px] object-cover"
+                      loading="lazy"
                     />
                   </div>
                 ))}
               </div>
+              
+              {/* Navigation dots (if there were multiple slides) */}
+              {slides.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentSlide 
+                          ? 'bg-white scale-110' 
+                          : 'bg-white/50 hover:bg-white/70'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            
-            {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
           </div>
         </div>
       </div>
