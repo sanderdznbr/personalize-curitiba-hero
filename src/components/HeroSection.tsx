@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -56,79 +55,77 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="min-h-screen hero-gradient relative overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-r from-primary to-secondary overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="white" fill-opacity="0.1"%3E%3Cpath d="M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z"/%3E%3C/g%3E%3C/svg%3E')]"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
       </div>
       
-      <div className="container mx-auto px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center min-h-screen py-20">
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        {/* Header with Logo */}
+        <header className="flex justify-between items-center mb-16">
+          <Logo />
+          <nav className="hidden md:flex space-x-8">
+            <a href="#sobre" className="text-white hover:text-accent transition-colors">Sobre</a>
+            <a href="#servicos" className="text-white hover:text-accent transition-colors">Serviços</a>
+            <a href="#contato" className="text-white hover:text-accent transition-colors">Contato</a>
+          </nav>
+        </header>
+
+        {/* Hero Content */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)]">
           {/* Left Content */}
-          <div className="flex-1 lg:pr-12 xl:pr-20">
-            {/* Logo */}
-            <div className="mb-12">
-              <Logo />
-            </div>
+          <div className="text-white space-y-8 animate-fade-in">
+            <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+              Seu uniforme, sua marca, sua 
+              <span className="bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"> identidade!</span>
+            </h1>
             
-            {/* Main Content */}
-            <div className="space-y-8 animate-slide-in">
-              <h1 className="text-hero">
-                Seu uniforme, sua
-                <br />
-                <span className="bg-gradient-to-r from-[hsl(var(--brand-secondary))] to-white bg-clip-text text-transparent">marca</span>, sua
-                <br />
-                identidade!
-              </h1>
-              
-              <p className="text-hero-sub max-w-2xl">
-                Desde <span className="font-bold text-[hsl(var(--brand-secondary))]">1998</span>, produzindo camisas, jaquetas, bonés e uniformes 
-                personalizados com qualidade, <span className="font-bold text-[hsl(var(--brand-secondary))]">rapidez</span> e <span className="font-bold text-[hsl(var(--brand-secondary))]">confiança</span>.
-              </p>
-              
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-6 pt-8">
-                <Button className="btn-hero btn-primary">
-                  SAIBA MAIS
-                </Button>
-                <Button className="btn-hero btn-secondary">
-                  ENTRAR EM CONTATO
-                </Button>
-              </div>
+            <p className="text-xl lg:text-2xl text-white/90 max-w-2xl">
+              Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button 
+                size="lg" 
+                className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                SAIBA MAIS
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6 font-semibold transition-all"
+              >
+                ENTRAR EM CONTATO
+              </Button>
             </div>
           </div>
-          
-          {/* Right Slider */}
-          <div className="flex-1 mt-12 lg:mt-0 animate-fade-in">
-            <div className="relative max-w-2xl mx-auto">
-              {/* Main Image */}
-              <div className="relative rounded-[var(--radius-xl)] overflow-hidden slider-shadow">
-                <img
-                  src={slides[currentSlide].image}
-                  alt={slides[currentSlide].alt}
-                  className="w-full h-[500px] lg:h-[600px] object-cover transition-all duration-700"
-                />
-                
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-              </div>
-              
-              {/* Slider Dots */}
-              <div className="flex justify-center space-x-3 mt-8">
-                {slides.map((_, index) => (
-                  <button
+
+          {/* Right Content - Image Slider */}
+          <div className="relative animate-fade-in-delay">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-sm">
+              <div className="aspect-[4/3] relative">
+                {slides.map((slide, index) => (
+                  <div
                     key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                        ? 'bg-[hsl(var(--brand-secondary))] scale-125'
-                        : 'bg-white/50 hover:bg-white/70'
+                    className={`absolute inset-0 transition-opacity duration-1000 ${
+                      index === currentSlide ? 'opacity-100' : 'opacity-0'
                     }`}
-                    aria-label={`Slide ${index + 1}`}
-                  />
+                  >
+                    <img
+                      src={slide.image}
+                      alt={slide.alt}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
+            
+            {/* Decorative Elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
           </div>
         </div>
       </div>
