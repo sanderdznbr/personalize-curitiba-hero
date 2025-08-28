@@ -57,33 +57,60 @@ export const BannersManager: React.FC = () => {
   };
 
   const uploadImage = async (file: File): Promise<string | null> => {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `banner-${Date.now()}.${fileExt}`;
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `banner-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from('banners-images')
-      .upload(fileName, file);
+      console.log('Uploading banner image:', fileName);
 
-    if (uploadError) {
+      const { error: uploadError } = await supabase.storage
+        .from('banners-images')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        toast({
+          title: "Erro no upload",
+          description: uploadError.message || "Erro ao fazer upload da imagem",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      const { data } = supabase.storage
+        .from('banners-images')
+        .getPublicUrl(fileName);
+
+      console.log('Upload successful, URL:', data.publicUrl);
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Upload catch error:', error);
       toast({
         title: "Erro",
-        description: "Erro ao fazer upload da imagem",
+        description: "Erro inesperado no upload da imagem",
         variant: "destructive",
       });
       return null;
     }
-
-    const { data } = supabase.storage
-      .from('banners-images')
-      .getPublicUrl(fileName);
-
-    return data.publicUrl;
   };
 
   const handleSubmit = async () => {
+    if (!formData.title.trim()) {
+      toast({
+        title: "Erro",
+        description: "O título é obrigatório",
+        variant: "destructive",
+      });
+      return;
+    }
+
     let imageUrl = editingBanner?.image_url || null;
 
     if (uploadedFile) {
+      console.log('Uploading new file:', uploadedFile.name);
       imageUrl = await uploadImage(uploadedFile);
       if (!imageUrl) return;
     }
@@ -270,6 +297,7 @@ export const BannersManager: React.FC = () => {
                   <FileUploader
                     onFileSelect={setUploadedFile}
                     currentFile={editingBanner?.image_url || undefined}
+                    onRemove={() => setUploadedFile(null)}
                     accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp'] }}
                   />
                 </div>
