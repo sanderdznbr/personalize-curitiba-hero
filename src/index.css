@@ -69,7 +69,7 @@
   }
   
   .hero-gradient {
-    background: var(--brand-gradient);
+    background: hsl(var(--brand-primary));
   }
   
   .text-hero {
