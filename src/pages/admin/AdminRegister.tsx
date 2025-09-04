@@ -51,7 +51,7 @@ export const AdminRegister: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // First, sign up the user
+      // Sign up the user
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -61,9 +61,15 @@ export const AdminRegister: React.FC = () => {
       });
 
       if (signUpError) {
+        let errorMessage = signUpError.message;
+        
+        if (signUpError.message.includes('User already registered')) {
+          errorMessage = "Usuário já registrado. Faça login em vez disso.";
+        }
+        
         toast({
           title: "Erro no registro",
-          description: signUpError.message,
+          description: errorMessage,
           variant: "destructive",
         });
         setIsLoading(false);
@@ -71,25 +77,31 @@ export const AdminRegister: React.FC = () => {
       }
 
       if (authData.user) {
-        // Add user to admin_users table
+        // Add user to admin_users table automatically
         const { error: adminError } = await supabase
           .from('admin_users')
           .insert({
             id: authData.user.id,
-            email: authData.user.email,
+            email: authData.user.email || email,
             role: 'admin',
           });
 
-        if (adminError) {
+        if (adminError && !adminError.message.includes('duplicate key')) {
           console.error('Error adding to admin_users:', adminError);
         }
 
         toast({
-          title: "Registro realizado",
-          description: "Verifique seu email para confirmar a conta",
+          title: "Registro realizado com sucesso!",
+          description: "Você será redirecionado para o painel admin",
         });
+        
+        // Wait a moment then redirect
+        setTimeout(() => {
+          window.location.href = '/admin';
+        }, 1500);
       }
     } catch (error) {
+      console.error('Registration error:', error);
       toast({
         title: "Erro",
         description: "Erro inesperado durante o registro",

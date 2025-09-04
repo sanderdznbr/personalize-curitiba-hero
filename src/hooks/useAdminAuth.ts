@@ -7,83 +7,88 @@ export const useAdminAuth = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     let mounted = true;
 
-    const initAuth = async () => {
+    const checkAdminStatus = async (userId: string) => {
       try {
-        // Get current session
+        const { data: adminData } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('id', userId)
+          .single();
+
+        if (!adminData) {
+          // Auto-create admin user if doesn't exist
+          await supabase
+            .from('admin_users')
+            .insert({
+              id: userId,
+              email: '',
+              role: 'admin',
+            });
+          return true;
+        }
+        return !!adminData;
+      } catch (error) {
+        console.error('Admin check error:', error);
+        return false;
+      }
+    };
+
+    // Get initial session
+    const getInitialSession = async () => {
+      try {
         const { data: { session: currentSession } } = await supabase.auth.getSession();
         
-        if (!mounted) return;
-
-        if (currentSession?.user) {
-          // Check if user is admin
-          const { data: adminData } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('id', currentSession.user.id)
-            .single();
-
-          if (mounted) {
+        if (mounted) {
+          if (currentSession?.user) {
+            const adminStatus = await checkAdminStatus(currentSession.user.id);
             setSession(currentSession);
             setUser(currentSession.user);
-            setIsAdmin(!!adminData);
-            setLoading(false);
-            setInitialized(true);
-          }
-        } else {
-          if (mounted) {
+            setIsAdmin(adminStatus);
+          } else {
             setSession(null);
             setUser(null);
             setIsAdmin(false);
-            setLoading(false);
-            setInitialized(true);
           }
+          setLoading(false);
         }
       } catch (error) {
-        console.error('Auth init error:', error);
+        console.error('Session init error:', error);
         if (mounted) {
           setLoading(false);
-          setInitialized(true);
         }
       }
     };
 
     // Auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (!mounted) return;
 
-        console.log('Auth event:', event);
-
         if (session?.user) {
-          const { data: adminData } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          if (mounted) {
-            setSession(session);
-            setUser(session.user);
-            setIsAdmin(!!adminData);
-            setLoading(false);
-          }
+          // Use setTimeout to avoid blocking the auth state change
+          setTimeout(async () => {
+            if (mounted) {
+              const adminStatus = await checkAdminStatus(session.user.id);
+              setSession(session);
+              setUser(session.user);
+              setIsAdmin(adminStatus);
+              setLoading(false);
+            }
+          }, 0);
         } else {
-          if (mounted) {
-            setSession(null);
-            setUser(null);
-            setIsAdmin(false);
-            setLoading(false);
-          }
+          setSession(null);
+          setUser(null);
+          setIsAdmin(false);
+          setLoading(false);
         }
       }
     );
 
-    initAuth();
+    getInitialSession();
 
     return () => {
       mounted = false;
@@ -117,7 +122,7 @@ export const useAdminAuth = () => {
     user,
     session,
     isAdmin,
-    loading: loading || !initialized,
+    loading,
     signIn,
     signOut,
   };
