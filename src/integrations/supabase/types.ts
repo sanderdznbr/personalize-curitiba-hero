@@ -78,6 +78,7 @@ export type Database = {
           button_text: string | null
           created_at: string
           id: string
+          image_mobile_url: string | null
           image_url: string | null
           order_index: number
           subtitle: string | null
@@ -90,6 +91,7 @@ export type Database = {
           button_text?: string | null
           created_at?: string
           id?: string
+          image_mobile_url?: string | null
           image_url?: string | null
           order_index?: number
           subtitle?: string | null
@@ -102,6 +104,7 @@ export type Database = {
           button_text?: string | null
           created_at?: string
           id?: string
+          image_mobile_url?: string | null
           image_url?: string | null
           order_index?: number
           subtitle?: string | null
