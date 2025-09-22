@@ -91,9 +91,9 @@ const Footer = () => {
                 <WhatsAppIcon />
                 <span>(41) 99133-2936</span>
               </a>
-              <a href="tel:+554133637542" className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
+              <a href="tel:+5541309578190" className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
                 <PhoneIcon />
-                <span>(41) 3363-7542</span>
+                <span>(41) 3095-7819</span>
               </a>
             </div>
           </div>
