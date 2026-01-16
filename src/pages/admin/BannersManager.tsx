@@ -7,8 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
 import { DualImageUploader } from '@/components/admin/DualImageUploader';
-import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
@@ -22,6 +24,10 @@ interface Banner {
   button_link: string | null;
   order_index: number;
   active: boolean;
+  overlay_color: string | null;
+  overlay_opacity: number | null;
+  image_fit: string | null;
+  slide_duration: number | null;
 }
 
 export const BannersManager: React.FC = () => {
@@ -39,6 +45,10 @@ export const BannersManager: React.FC = () => {
     button_link: '',
     active: true,
     order_index: 0,
+    overlay_color: '#00C563',
+    overlay_opacity: 1,
+    image_fit: 'cover',
+    slide_duration: 5000,
   });
 
   useEffect(() => {
@@ -91,6 +101,10 @@ export const BannersManager: React.FC = () => {
             button_link: formData.button_link,
             active: formData.active,
             order_index: formData.order_index,
+            overlay_color: formData.overlay_color,
+            overlay_opacity: formData.overlay_opacity,
+            image_fit: formData.image_fit,
+            slide_duration: formData.slide_duration,
           })
           .eq('id', editingId);
 
@@ -108,6 +122,10 @@ export const BannersManager: React.FC = () => {
             button_link: formData.button_link,
             active: formData.active,
             order_index: formData.order_index,
+            overlay_color: formData.overlay_color,
+            overlay_opacity: formData.overlay_opacity,
+            image_fit: formData.image_fit,
+            slide_duration: formData.slide_duration,
           }]);
 
         if (error) throw error;
@@ -139,6 +157,10 @@ export const BannersManager: React.FC = () => {
       button_link: '',
       active: true,
       order_index: 0,
+      overlay_color: '#00C563',
+      overlay_opacity: 1,
+      image_fit: 'cover',
+      slide_duration: 5000,
     });
   };
 
@@ -153,6 +175,10 @@ export const BannersManager: React.FC = () => {
       button_link: banner.button_link || '',
       active: banner.active,
       order_index: banner.order_index,
+      overlay_color: banner.overlay_color || '#00C563',
+      overlay_opacity: banner.overlay_opacity ?? 1,
+      image_fit: banner.image_fit || 'cover',
+      slide_duration: banner.slide_duration ?? 5000,
     });
     setIsDialogOpen(true);
   };
@@ -285,6 +311,95 @@ export const BannersManager: React.FC = () => {
                     disabled={isSubmitting}
                   />
                 </div>
+
+                {/* Configurações Visuais */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Configurações Visuais</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="overlay_color">Cor de Fundo/Overlay</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            id="overlay_color"
+                            type="color"
+                            value={formData.overlay_color}
+                            onChange={(e) => setFormData(prev => ({ ...prev, overlay_color: e.target.value }))}
+                            className="w-16 h-10 p-1 cursor-pointer"
+                            disabled={isSubmitting}
+                          />
+                          <Input
+                            value={formData.overlay_color}
+                            onChange={(e) => setFormData(prev => ({ ...prev, overlay_color: e.target.value }))}
+                            placeholder="#00C563"
+                            className="flex-1"
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Deixe transparente ou sem cor para remover o verde
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label>Opacidade do Overlay: {Math.round(formData.overlay_opacity * 100)}%</Label>
+                        <Slider
+                          value={[formData.overlay_opacity]}
+                          onValueChange={(value) => setFormData(prev => ({ ...prev, overlay_opacity: value[0] }))}
+                          min={0}
+                          max={1}
+                          step={0.05}
+                          disabled={isSubmitting}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          0% = sem overlay, 100% = cor sólida
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="image_fit">Modo de Exibição da Imagem</Label>
+                        <Select
+                          value={formData.image_fit}
+                          onValueChange={(value) => setFormData(prev => ({ ...prev, image_fit: value }))}
+                          disabled={isSubmitting}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione o modo" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="cover">Esticada (Cover) - Preenche todo espaço</SelectItem>
+                            <SelectItem value="contain">Proporcional (Contain) - Mostra toda imagem</SelectItem>
+                            <SelectItem value="fill">Distorcida (Fill) - Estica para preencher</SelectItem>
+                            <SelectItem value="none">Original (None) - Tamanho real</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="slide_duration">Tempo de Transição (segundos)</Label>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            id="slide_duration"
+                            type="number"
+                            min={1}
+                            max={30}
+                            value={formData.slide_duration / 1000}
+                            onChange={(e) => setFormData(prev => ({ ...prev, slide_duration: Number(e.target.value) * 1000 }))}
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm text-muted-foreground">seg</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Tempo até mudar para o próximo banner
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
                 <div className="flex items-center space-x-2">
                   <Switch

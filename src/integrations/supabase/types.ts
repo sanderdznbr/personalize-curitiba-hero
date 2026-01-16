@@ -78,9 +78,13 @@ export type Database = {
           button_text: string | null
           created_at: string
           id: string
+          image_fit: string | null
           image_mobile_url: string | null
           image_url: string | null
           order_index: number
+          overlay_color: string | null
+          overlay_opacity: number | null
+          slide_duration: number | null
           subtitle: string | null
           title: string
           updated_at: string
@@ -91,9 +95,13 @@ export type Database = {
           button_text?: string | null
           created_at?: string
           id?: string
+          image_fit?: string | null
           image_mobile_url?: string | null
           image_url?: string | null
           order_index?: number
+          overlay_color?: string | null
+          overlay_opacity?: number | null
+          slide_duration?: number | null
           subtitle?: string | null
           title: string
           updated_at?: string
@@ -104,9 +112,13 @@ export type Database = {
           button_text?: string | null
           created_at?: string
           id?: string
+          image_fit?: string | null
           image_mobile_url?: string | null
           image_url?: string | null
           order_index?: number
+          overlay_color?: string | null
+          overlay_opacity?: number | null
+          slide_duration?: number | null
           subtitle?: string | null
           title?: string
           updated_at?: string

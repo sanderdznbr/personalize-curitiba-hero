@@ -8,8 +8,13 @@ interface Banner {
   title: string;
   subtitle: string | null;
   image_url: string | null;
+  image_mobile_url: string | null;
   button_text: string | null;
   button_link: string | null;
+  overlay_color: string | null;
+  overlay_opacity: number | null;
+  image_fit: string | null;
+  slide_duration: number | null;
 }
 
 const Logo = () => (
@@ -24,6 +29,14 @@ const HeroSection = () => {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     fetchBanners();
@@ -31,12 +44,14 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (banners.length > 1) {
+      const currentBanner = banners[currentSlide];
+      const duration = currentBanner?.slide_duration ?? 5000;
       const interval = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % banners.length);
-      }, 5000);
+      }, duration);
       return () => clearInterval(interval);
     }
-  }, [banners.length]);
+  }, [banners.length, currentSlide, banners]);
 
   const fetchBanners = async () => {
     const { data, error } = await supabase
@@ -54,8 +69,13 @@ const HeroSection = () => {
         title: 'Seu uniforme, sua marca, sua identidade!',
         subtitle: 'Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.',
         image_url: null,
+        image_mobile_url: null,
         button_text: 'Saiba mais',
         button_link: '#about',
+        overlay_color: '#00C563',
+        overlay_opacity: 1,
+        image_fit: 'cover',
+        slide_duration: 5000,
       }]);
     }
     setLoading(false);
@@ -82,11 +102,35 @@ const HeroSection = () => {
   }
 
   const currentBanner = banners[currentSlide];
+  const overlayColor = currentBanner.overlay_color || '#00C563';
+  const overlayOpacity = currentBanner.overlay_opacity ?? 1;
+  const imageFit = currentBanner.image_fit || 'cover';
+  const imageUrl = isMobile && currentBanner.image_mobile_url 
+    ? currentBanner.image_mobile_url 
+    : currentBanner.image_url;
+
+  // Converter hex para rgb para usar com opacidade
+  const hexToRgb = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 198, b: 99 };
+  };
+
+  const rgb = hexToRgb(overlayColor);
+  const bgStyle = overlayOpacity > 0 
+    ? { backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${overlayOpacity})` }
+    : {};
 
   return (
     <section className="min-h-screen relative overflow-hidden bg-white md:p-6">
-      {/* Green background container with rounded corners */}
-      <div className="relative min-h-screen md:min-h-[calc(100vh-3rem)] bg-[#00C563] md:rounded-3xl overflow-hidden">
+      {/* Background container with configurable color */}
+      <div 
+        className="relative min-h-screen md:min-h-[calc(100vh-3rem)] md:rounded-3xl overflow-hidden"
+        style={bgStyle}
+      >
         {/* Slider Controls */}
         {banners.length > 1 && (
           <>
@@ -119,10 +163,14 @@ const HeroSection = () => {
         )}
 
         {/* Background Image (if exists) */}
-        {currentBanner.image_url && (
+        {imageUrl && (
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 rounded-2xl md:rounded-3xl"
-            style={{ backgroundImage: `url(${currentBanner.image_url})` }}
+            className="absolute inset-0 bg-center bg-no-repeat rounded-2xl md:rounded-3xl"
+            style={{ 
+              backgroundImage: `url(${imageUrl})`,
+              backgroundSize: imageFit,
+              opacity: overlayOpacity < 1 ? 1 : 0.2,
+            }}
           />
         )}
 
