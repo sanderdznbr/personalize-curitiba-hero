@@ -8,6 +8,7 @@ interface Banner {
   title: string;
   subtitle: string | null;
   image_url: string | null;
+  image_tablet_url: string | null;
   image_mobile_url: string | null;
   button_text: string | null;
   button_link: string | null;
@@ -30,12 +31,17 @@ const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   useEffect(() => {
@@ -69,6 +75,7 @@ const HeroSection = () => {
         title: 'Seu uniforme, sua marca, sua identidade!',
         subtitle: 'Desde 1998, produzindo camisas, jaquetas, bonés e uniformes personalizados com qualidade, rapidez e confiança.',
         image_url: null,
+        image_tablet_url: null,
         image_mobile_url: null,
         button_text: 'Saiba mais',
         button_link: '#about',
@@ -105,11 +112,18 @@ const HeroSection = () => {
   const overlayColor = currentBanner.overlay_color || '#00C563';
   const overlayOpacity = currentBanner.overlay_opacity ?? 1;
   const imageFit = currentBanner.image_fit || 'cover';
-  const imageUrl = isMobile && currentBanner.image_mobile_url 
-    ? currentBanner.image_mobile_url 
-    : currentBanner.image_url;
-
-  // Converter hex para rgb para usar com opacidade
+  
+  // Seleciona a imagem correta baseado no tamanho da tela
+  const getImageUrl = () => {
+    if (isMobile && currentBanner.image_mobile_url) {
+      return currentBanner.image_mobile_url;
+    }
+    if (isTablet && currentBanner.image_tablet_url) {
+      return currentBanner.image_tablet_url;
+    }
+    return currentBanner.image_url;
+  };
+  const imageUrl = getImageUrl();
   const hexToRgb = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
