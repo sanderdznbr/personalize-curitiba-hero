@@ -80,6 +80,7 @@ export type Database = {
           id: string
           image_fit: string | null
           image_mobile_url: string | null
+          image_tablet_url: string | null
           image_url: string | null
           order_index: number
           overlay_color: string | null
@@ -97,6 +98,7 @@ export type Database = {
           id?: string
           image_fit?: string | null
           image_mobile_url?: string | null
+          image_tablet_url?: string | null
           image_url?: string | null
           order_index?: number
           overlay_color?: string | null
@@ -114,6 +116,7 @@ export type Database = {
           id?: string
           image_fit?: string | null
           image_mobile_url?: string | null
+          image_tablet_url?: string | null
           image_url?: string | null
           order_index?: number
           overlay_color?: string | null

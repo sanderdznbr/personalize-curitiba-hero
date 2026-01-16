@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { DualImageUploader } from '@/components/admin/DualImageUploader';
+import { TripleImageUploader } from '@/components/admin/TripleImageUploader';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -19,6 +19,7 @@ interface Banner {
   title: string;
   subtitle: string | null;
   image_url: string | null;
+  image_tablet_url: string | null;
   image_mobile_url: string | null;
   button_text: string | null;
   button_link: string | null;
@@ -40,6 +41,7 @@ export const BannersManager: React.FC = () => {
     title: '',
     subtitle: '',
     image_url: '',
+    image_tablet_url: '',
     image_mobile_url: '',
     button_text: '',
     button_link: '',
@@ -96,6 +98,7 @@ export const BannersManager: React.FC = () => {
             title: formData.title,
             subtitle: formData.subtitle,
             image_url: formData.image_url,
+            image_tablet_url: formData.image_tablet_url,
             image_mobile_url: formData.image_mobile_url,
             button_text: formData.button_text,
             button_link: formData.button_link,
@@ -117,6 +120,7 @@ export const BannersManager: React.FC = () => {
             title: formData.title,
             subtitle: formData.subtitle,
             image_url: formData.image_url,
+            image_tablet_url: formData.image_tablet_url,
             image_mobile_url: formData.image_mobile_url,
             button_text: formData.button_text,
             button_link: formData.button_link,
@@ -152,6 +156,7 @@ export const BannersManager: React.FC = () => {
       title: '',
       subtitle: '',
       image_url: '',
+      image_tablet_url: '',
       image_mobile_url: '',
       button_text: '',
       button_link: '',
@@ -170,6 +175,7 @@ export const BannersManager: React.FC = () => {
       title: banner.title,
       subtitle: banner.subtitle || '',
       image_url: banner.image_url || '',
+      image_tablet_url: banner.image_tablet_url || '',
       image_mobile_url: banner.image_mobile_url || '',
       button_text: banner.button_text || '',
       button_link: banner.button_link || '',
@@ -302,10 +308,12 @@ export const BannersManager: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <DualImageUploader
+                  <TripleImageUploader
                     webImageUrl={formData.image_url}
+                    tabletImageUrl={formData.image_tablet_url}
                     mobileImageUrl={formData.image_mobile_url}
                     onWebImageChange={(url) => setFormData(prev => ({ ...prev, image_url: url || '' }))}
+                    onTabletImageChange={(url) => setFormData(prev => ({ ...prev, image_tablet_url: url || '' }))}
                     onMobileImageChange={(url) => setFormData(prev => ({ ...prev, image_mobile_url: url || '' }))}
                     bucketName="banners-images"
                     disabled={isSubmitting}
