@@ -169,7 +169,7 @@ export const TripleImageUploader: React.FC<TripleImageUploaderProps> = ({
         bucketName={bucketName}
         disabled={disabled}
         title="Desktop"
-        subtitle="1920 x 600 px"
+        subtitle="1920 x 800 px"
         icon={<Monitor className="w-4 h-4" />}
       />
       
@@ -180,7 +180,7 @@ export const TripleImageUploader: React.FC<TripleImageUploaderProps> = ({
         bucketName={bucketName}
         disabled={disabled}
         title="Tablet"
-        subtitle="1024 x 500 px"
+        subtitle="1024 x 700 px"
         icon={<Tablet className="w-4 h-4" />}
       />
       
@@ -191,7 +191,7 @@ export const TripleImageUploader: React.FC<TripleImageUploaderProps> = ({
         bucketName={bucketName}
         disabled={disabled}
         title="Mobile"
-        subtitle="720 x 800 px"
+        subtitle="720 x 500 px"
         icon={<Smartphone className="w-4 h-4" />}
       />
     </div>
