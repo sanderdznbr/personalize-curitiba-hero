@@ -125,8 +125,7 @@ const HeroSection = () => {
     <section className="relative overflow-hidden bg-white md:px-6">
       {/* Banner container with fixed height */}
       <div
-        className="relative h-[500px] md:h-[800px] md:rounded-3xl overflow-hidden"
-        style={overlayOpacity > 0 ? { backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${overlayOpacity})` } : {}}
+        className="relative h-[500px] md:h-[800px] md:rounded-3xl overflow-hidden bg-muted"
       >
         {/* Slider Controls */}
         {banners.length > 1 && (
