@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { openWhatsAppWithTracking } from '@/lib/gtag';
 
 const CTASection = () => {
   return (
@@ -19,7 +20,7 @@ const CTASection = () => {
           {/* CTA Button */}
           <Button 
             className="bg-white text-[#00A859] hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={() => window.open('https://api.whatsapp.com/send?phone=5541991332936&text=Ol%C3%A1%20Personalize%20Curitiba%2C%20encontrei%20seu%20site%20no%20Google%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20%20', '_blank')}
+            onClick={() => openWhatsAppWithTracking()}
           >
             Entrar em contato
           </Button>

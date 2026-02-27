@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackWhatsAppConversion } from '@/lib/gtag';
 
 const Footer = () => {
   const WhatsAppIcon = () => (
@@ -87,7 +88,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <h4 className="text-lg font-semibold mb-4">Contato</h4>
             <div className="space-y-3">
-              <a href="https://api.whatsapp.com/send?phone=5541991332936&text=Ol%C3%A1%20Personalize%20Curitiba%2C%20encontrei%20seu%20site%20no%20Google%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20%20" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
+              <a href="https://api.whatsapp.com/send?phone=5541991332936&text=Ol%C3%A1%20Personalize%20Curitiba%2C%20encontrei%20seu%20site%20no%20Google%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20%20" target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsAppConversion()} className="flex items-center gap-3 hover:text-[#007A42] transition-colors">
                 <WhatsAppIcon />
                 <span>(41) 99133-2936</span>
               </a>
