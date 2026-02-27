@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { openWhatsAppWithTracking } from '@/lib/gtag';
 
 interface AboutContent {
   id: string;
@@ -82,7 +83,7 @@ const AboutSection = () => {
               <div className="pt-4">
               <Button 
                 className="btn-hero btn-secondary"
-                onClick={() => window.open('https://api.whatsapp.com/send?phone=5541991332936&text=Ol%C3%A1%20Personalize%20Curitiba%2C%20encontrei%20seu%20site%20no%20Google%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20%20', '_blank')}
+                onClick={() => openWhatsAppWithTracking()}
               >
                   {content.button_text}
                 </Button>
