@@ -15,7 +15,7 @@ const GreenLogo = () => (
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" id="root-container">
       <Navbar />
       {/* Logo header */}
       <header className="bg-white py-4 md:py-6 flex justify-center">
