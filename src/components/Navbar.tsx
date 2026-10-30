@@ -31,25 +31,25 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#00A859] shadow-lg transition-transform duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-white shadow-lg transition-transform duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <span className="text-white text-xl font-bold">PERSONALIZE</span>
+            <span className="text-[#00A859] text-xl font-bold">PERSONALIZE</span>
           </div>
           <div className="hidden md:flex space-x-8">
-            <button onClick={() => scrollToSection('about')} className="text-white hover:text-green-200 transition-colors font-medium">Quem somos</button>
-            <button onClick={() => scrollToSection('products')} className="text-white hover:text-green-200 transition-colors font-medium">Produtos</button>
-            <button onClick={() => scrollToSection('differentials')} className="text-white hover:text-green-200 transition-colors font-medium">Diferenciais</button>
-            <button onClick={() => scrollToSection('contact')} className="text-white hover:text-green-200 transition-colors font-medium">Contato</button>
+            <button onClick={() => scrollToSection('about')} className="text-[#007A42] hover:text-green-600 transition-colors font-medium">Quem somos</button>
+            <button onClick={() => scrollToSection('products')} className="text-[#007A42] hover:text-green-600 transition-colors font-medium">Produtos</button>
+            <button onClick={() => scrollToSection('differentials')} className="text-[#007A42] hover:text-green-600 transition-colors font-medium">Diferenciais</button>
+            <button onClick={() => scrollToSection('contact')} className="text-[#007A42] hover:text-green-600 transition-colors font-medium">Contato</button>
           </div>
           <div className="flex items-center gap-3">
             <Link 
               to="/admin/login"
-              className="flex items-center justify-center w-10 h-10 bg-white/10 backdrop-blur-sm text-white rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"
+              className="flex items-center justify-center w-10 h-10 bg-white/10 backdrop-blur-sm text-[#00A859] rounded-full hover:bg-gray-200 transition-all duration-300 border border-[#007A42]"
               title="Login Administrativo"
             >
               <LogIn className="w-5 h-5" />
@@ -59,7 +59,7 @@ const Navbar = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackWhatsAppConversion()}
-              className="flex items-center gap-2 bg-white text-[#00A859] px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
+              className="flex items-center gap-2 bg-[#00A859] text-white px-4 py-2 rounded-full font-medium hover:bg-green-600 transition-colors"
             >
               {WhatsAppIcon()}
               <span className="hidden sm:inline">Entrar em contato</span>
